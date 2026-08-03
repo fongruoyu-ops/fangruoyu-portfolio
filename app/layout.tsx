@@ -32,8 +32,9 @@ export async function generateMetadata(): Promise<Metadata> {
     title,
     description,
     icons: {
-      icon: "/favicon.svg",
-      shortcut: "/favicon.svg",
+      icon: [{ url: "/about/ruoyu-avatar.png", type: "image/png" }],
+      shortcut: "/about/ruoyu-avatar.png",
+      apple: "/about/ruoyu-avatar.png",
     },
     openGraph: {
       title,
@@ -56,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" data-theme="dark" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

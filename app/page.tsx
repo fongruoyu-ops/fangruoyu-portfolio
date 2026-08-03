@@ -5,140 +5,260 @@ import { useEffect, useRef, useState } from "react";
 type Project = {
   id: string;
   title: string;
+  company: "快手" | "美团";
+  companyLogo: string;
   tag: string;
   metric: string;
-  summary: string;
-  role: string;
+  pdf: string;
+  cover: string;
+  gallery: string[];
   accent: string;
 };
 
-type Job = {
-  company: string;
+type JourneyEntry = {
+  id: string;
+  kind: "work" | "education";
+  organization: string;
   role: string;
   period: string;
   team: string;
   summary: string;
+  bullets: string[];
   projects: string[];
+  accent: string;
+  logo: string;
+  top: number;
+  height: number;
 };
 
 const projects: Project[] = [
   {
-    id: "trip-ai",
-    title: "AI 线路规划产品",
-    tag: "AI · 多端体验",
-    metric: "国内 / 海外用户",
-    summary:
-      "围绕旅行规划的完整决策链路，设计从需求输入、线路生成、方案选择到行程调整的多端体验。",
-    role: "需求分析、场景研究、任务流程、信息架构与落地协同",
-    accent: "lime",
-  },
-  {
-    id: "live-ai",
-    title: "AI 直播助手",
-    tag: "0—1 · 商业化",
+    id: "kuaishou-1",
+    title: "中小达人 AI 直播助手",
+    company: "快手",
+    companyLogo: "/logos/kuaishou.png",
+    tag: "设计主R · 0-1",
     metric: "日均 13 万+ 次使用",
-    summary:
-      "帮助中小主播降低讲品、操作和经营分析的学习成本，构建 AI 辅助讲品、语音操作与实时建议体验。",
-    role: "用户研究、用户旅程、交互方案、数据诊断与 MVP 推进",
+    pdf: "/projects/kuaishou-1.pdf",
+    cover: "/projects/previews/kuaishou-1-01.jpg",
+    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/kuaishou-1-0${page}.jpg`),
     accent: "violet",
   },
   {
-    id: "agent",
-    title: "AI Agent 经营体系",
-    tag: "人机协同",
-    metric: "建议 → 确认 → 执行",
-    summary:
-      "将复杂经营流程拆解为任务驱动型交互，推动 AI 能力从辅助工具向可执行 Agent 演进。",
-    role: "交互范式、任务建模、人机协同机制",
+    id: "kuaishou-2",
+    title: "分销商家 AI 赋能体系建设",
+    company: "快手",
+    companyLogo: "/logos/kuaishou.png",
+    tag: "AI赋能B端",
+    metric: "工具辅助 → 经营代理",
+    pdf: "/projects/kuaishou-2.pdf",
+    cover: "/projects/previews/kuaishou-2-01.jpg",
+    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/kuaishou-2-0${page}.jpg`),
     accent: "blue",
   },
   {
-    id: "distribution",
+    id: "kuaishou-3",
     title: "达人分销体验治理",
-    tag: "复杂系统 · Design System",
+    company: "快手",
+    companyLogo: "/logos/kuaishou.png",
+    tag: "多页面体验优化",
     metric: "33 个页面完成升级",
-    summary:
-      "横向梳理达人分销前后台关键链路，完成 50+ 页面体验评估、问题分级与统一升级。",
-    role: "全链路诊断、信息架构、业务组件与设计规范",
+    pdf: "/projects/kuaishou-3.pdf",
+    cover: "/projects/previews/kuaishou-3-01.jpg",
+    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/kuaishou-3-0${page}.jpg`),
     accent: "orange",
   },
   {
-    id: "bee",
-    title: "蜜蜂活动运营中心",
-    tag: "B 端效率工具",
+    id: "meituan-1",
+    title: "商家服务 / 运营工具",
+    company: "美团",
+    companyLogo: "/logos/meituan.png",
+    tag: "B端效率工具",
     metric: "配置时长 60s → 10s",
-    summary:
-      "通过访谈、前线跟岗与社区反馈梳理活动运营全场景，重构信息架构与配置流程。",
-    role: "用户研究、旅程地图、信息架构与交互设计",
+    pdf: "/projects/meituan-1.pdf",
+    cover: "/projects/previews/meituan-1-01.jpg",
+    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/meituan-1-0${page}.jpg`),
+    accent: "yellow",
+  },
+  {
+    id: "meituan-2",
+    title: "站外推广流量池",
+    company: "美团",
+    companyLogo: "/logos/meituan.png",
+    tag: "增长体验",
+    metric: "社群拉新与转化",
+    pdf: "/projects/meituan-2.pdf",
+    cover: "/projects/previews/meituan-2-01.jpg",
+    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/meituan-2-0${page}.jpg`),
     accent: "yellow",
   },
 ];
 
-const jobs: Job[] = [
+const journeyEntries: JourneyEntry[] = [
   {
-    company: "携程",
+    id: "ctrip",
+    kind: "work",
+    organization: "携程",
     role: "高级体验设计师",
     period: "2026.05 — 至今",
     team: "内容平台产品部",
-    summary:
-      "负责面向国内外用户的 AI 旅行规划体验，以全链路视角打通移动端与 PC 端的决策过程。",
-    projects: ["trip-ai"],
+    summary: "负责 AI 线路规划产品体验设计，并参与搭建团队设计侧 AI 提效工作流。",
+    bullets: [
+      "覆盖用户需求采集、线路生成、方案展示选择、行程编辑等核心场景，涉及国内、海外、移动端与 PC 端多端需求设计。",
+      "沉淀竞品分析、需求分析等 AI Skill，提升需求理解、方案探索及设计研究效率。",
+    ],
+    projects: [],
+    accent: "lime",
+    logo: "/logos/ctrip.png",
+    top: 70,
+    height: 76,
   },
   {
-    company: "快手科技",
+    id: "kuaishou",
+    kind: "work",
+    organization: "快手科技",
     role: "高级体验设计师",
     period: "2023.10 — 2026.05",
     team: "电商设计中心 · 服务 500 万+ 达人与商家",
-    summary:
-      "聚焦 AI 产品与复杂经营系统，从 0—1 商业化创新到跨页面体验治理，推动设计策略落地。",
-    projects: ["live-ai", "agent", "distribution"],
+    summary: "负责快手电商达人分销核心经营场景体验设计，对接 2 个产品组织、15 位 PM，服务 500 万+ 中小达人与商家。",
+    bullets: [
+      "0—1 设计并推动电商中小主播 AI 直播助手落地，上线后点击率 9.7%，日均 13 万+ 使用量，覆盖 6000+ 主播。",
+      "搭建分销商家 AI 赋能体系，将经营模式从辅助决策逐步推进到 Agent 化自动执行。",
+      "牵头达人分销全链路体验升级，识别 50+ 问题页面，两个季度推动 33 个页面升级上线。",
+      "推动电商 C 端平台级文案治理，归纳 6 类问题并建立文案规范、上线 SOP 与设计走查机制。",
+    ],
+    projects: ["kuaishou-1", "kuaishou-2", "kuaishou-3"],
+    accent: "violet",
+    logo: "/logos/kuaishou.png",
+    top: 152,
+    height: 109,
   },
   {
-    company: "美团",
+    id: "meituan",
+    kind: "work",
+    organization: "美团",
     role: "交互设计师",
     period: "2021.12 — 2023.10",
-    team: "到家设计中心",
-    summary:
-      "深入一线运营场景，以研究与流程重构提升 B 端工具效率，让复杂配置变得快速、清晰。",
-    projects: ["bee"],
+    team: "到家设计中心 · 后台产品设计组",
+    summary: "独立负责后台产品组多个模块，通过用户研究与交互设计持续提升需求体验和业务效能。",
+    bullets: [
+      "通过前线跟岗、用户访谈与社区反馈深入研究 BD 活动运营全场景，产出活动运营旅程图。",
+      "与产品共建活动运营中心框架和天天神券提报方案，配置时长由 1 分钟缩短至 10 秒。",
+      "功能满意度 4.13，使用率长期稳定在 90% 左右。",
+    ],
+    projects: ["meituan-1", "meituan-2"],
+    accent: "blue",
+    logo: "/logos/meituan.png",
+    top: 267,
+    height: 130,
+  },
+  {
+    id: "gsa",
+    kind: "education",
+    organization: "格拉斯哥艺术学院",
+    role: "创新交互设计 · 硕士",
+    period: "2020.09 — 2021.11",
+    team: "The Glasgow School of Art · 全日制",
+    summary: "创新交互设计硕士学习经历。",
+    bullets: [],
+    projects: [],
+    accent: "orange",
+    logo: "/logos/gsa.png",
+    top: 403,
+    height: 86,
+  },
+  {
+    id: "ahu",
+    kind: "education",
+    organization: "安徽大学",
+    role: "工业设计 · 本科",
+    period: "2016.09 — 2020.06",
+    team: "工业设计专业 · 全日制",
+    summary: "工业设计本科学习经历。",
+    bullets: [],
+    projects: [],
+    accent: "yellow",
+    logo: "/logos/anhui-university.png",
+    top: 507,
+    height: 278,
   },
 ];
+
+const journeyYears = Array.from({ length: 12 }, (_, index) => 2027 - index);
 
 const tabs = ["About me", "Career journey", "Highlighted work"];
 
 export default function Home() {
   const boardRef = useRef<HTMLDivElement>(null);
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [activeColumn, setActiveColumn] = useState(0);
-  const [activeJob, setActiveJob] = useState(1);
-  const [openProject, setOpenProject] = useState<Project | null>(null);
+  const [openJourney, setOpenJourney] = useState<JourneyEntry | null>(null);
+  const [copied, setCopied] = useState<"contact" | "email" | null>(null);
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
 
-  const scrollToColumn = (index: number) => {
-    const next = Math.max(0, Math.min(tabs.length - 1, index));
-    const board = boardRef.current;
-    const panel = board?.querySelector<HTMLElement>(`[data-column="${next}"]`);
-    panel?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
-    setActiveColumn(next);
+  const copyText = async (value: string, key: "contact" | "email") => {
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = value;
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      textarea.remove();
+    }
+
+    setCopied(key);
+    if (copyTimerRef.current) window.clearTimeout(copyTimerRef.current);
+    copyTimerRef.current = window.setTimeout(() => setCopied(null), 1800);
   };
+
+  const toggleTheme = () => {
+    setTheme((current) => {
+      const nextTheme = current === "dark" ? "light" : "dark";
+      document.documentElement.dataset.theme = nextTheme;
+      window.localStorage.setItem("portfolio-theme", nextTheme);
+      return nextTheme;
+    });
+  };
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("portfolio-theme");
+    const initialTheme = savedTheme === "light" || savedTheme === "dark" ? savedTheme : "dark";
+    document.documentElement.dataset.theme = initialTheme;
+    setTheme(initialTheme);
+  }, []);
 
   useEffect(() => {
     const board = boardRef.current;
     if (!board) return;
     const handleScroll = () => {
-      const width = board.clientWidth || 1;
-      setActiveColumn(Math.max(0, Math.min(2, Math.round(board.scrollLeft / width))));
+      const firstPanel = board.querySelector<HTMLElement>("[data-column]");
+      const gap = Number.parseFloat(window.getComputedStyle(board).gap) || 0;
+      const step = (firstPanel?.offsetWidth ?? board.clientWidth) + gap;
+      setActiveColumn(Math.max(0, Math.min(2, Math.round(board.scrollLeft / step))));
     };
     board.addEventListener("scroll", handleScroll, { passive: true });
     return () => board.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    if (!openProject) return;
+    if (!openJourney) return;
     const close = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpenProject(null);
+      if (event.key !== "Escape") return;
+      setOpenJourney(null);
     };
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
-  }, [openProject]);
+  }, [openJourney]);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) window.clearTimeout(copyTimerRef.current);
+    };
+  }, []);
 
   return (
     <main className="site-shell">
@@ -149,28 +269,25 @@ export default function Home() {
           <span>UX / Interaction Designer</span>
         </div>
         <div className="top-actions">
-          <span className="availability">Shanghai · Open to opportunities</span>
-          <a className="text-link" href="mailto:fangruoyu2023@163.com">
-            联系我 ↗
-          </a>
-          <nav className="arrow-nav" aria-label="模块切换">
-            <button
-              type="button"
-              aria-label="上一模块"
-              onClick={() => scrollToColumn(activeColumn - 1)}
-              disabled={activeColumn === 0}
-            >
-              ←
-            </button>
-            <button
-              type="button"
-              aria-label="下一模块"
-              onClick={() => scrollToColumn(activeColumn + 1)}
-              disabled={activeColumn === tabs.length - 1}
-            >
-              →
-            </button>
-          </nav>
+          <div className="header-contacts" aria-label="联系方式">
+            <a href="tel:17305691755" aria-label="拨打手机 17305691755">
+              <span className="contact-icon phone-icon" aria-hidden="true" />
+              <span>17305691755</span>
+            </a>
+            <a href="mailto:fangruoyu2023@163.com" aria-label="发送邮件至 fangruoyu2023@163.com">
+              <span className="contact-icon mail-icon" aria-hidden="true" />
+              <span>fangruoyu2023@163.com</span>
+            </a>
+          </div>
+          <button
+            className="theme-toggle"
+            type="button"
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "切换到浅色模式" : "切换到深色模式"}
+          >
+            <span aria-hidden="true">{theme === "dark" ? "☀" : "◐"}</span>
+            <span>{theme === "dark" ? "浅色" : "深色"}</span>
+          </button>
         </div>
       </header>
 
@@ -188,53 +305,80 @@ export default function Home() {
             <span>自我介绍</span>
           </div>
 
-          <div className="about-visual" aria-label="方若玉个人标识">
-            <div className="monogram">FRY</div>
-            <div className="visual-note">DESIGN × AI × CODE</div>
+          <div className="about-visual">
+            <img className="about-avatar" src="/about/ruoyu-avatar.png" alt="方若玉卡通头像" />
+            <p className="avatar-intro"><strong>HI,</strong> this is Ruoyu.</p>
           </div>
 
           <div className="about-copy">
-            <p className="lead">
-              嗨，我是方若玉。<br />
-              我把复杂业务，设计成清晰、可执行的体验。
+            <p>
+              <strong>4 年+ 用户体验与交互设计经验</strong>，长期负责复杂业务系统、AI 产品及
+              <strong>多终端体验设计</strong>（移动端 / PC 端），具备从设计策略到执行落地的全流程能力，覆盖用户研究、需求分析、任务流程、信息架构到交互方案。
             </p>
             <p>
-              4 年+ 用户体验与交互设计经验，长期负责复杂业务系统、AI 产品及多终端体验设计，覆盖用户研究、需求分析、任务流程、信息架构到交互落地。
+              擅长以全链路视角看待产品体验，把复杂业务逻辑抽象为结构化任务流程；具备参与
+              <strong>多端设计规范与业务组件</strong>建设的经验。
             </p>
             <p>
-              我擅长从全链路视角抽象业务问题，也在用 vibe coding 把设计想法更快变成真实、可体验的产品。
+              对用户行为数据与满意度有较高敏感度，擅长结合
+              <strong>用户调研、数据诊断与行业趋势研究</strong>识别问题、推动迭代。
             </p>
           </div>
 
           <dl className="profile-grid">
             <div>
-              <dt>Focus</dt>
-              <dd>AI 产品 · 复杂系统 · 多端体验</dd>
+              <dt>专注方向</dt>
+              <dd>多端体验 · 复杂系统 · AI赋能提效</dd>
             </div>
             <div>
-              <dt>Superpower</dt>
-              <dd>从策略视角到像素级落地</dd>
-            </div>
-            <div>
-              <dt>Education</dt>
+              <dt>教育背景</dt>
               <dd>创新交互设计硕士 · 工业设计本科</dd>
             </div>
             <div>
-              <dt>Now</dt>
-              <dd>高级体验设计师 · 上海</dd>
+              <dt>当前职位</dt>
+              <dd>高级体验设计师 · 携程 · 内容中心</dd>
+            </div>
+            <div className="awards-row">
+              <dt>获奖经历</dt>
+              <dd className="awards-grid" aria-label="获奖经历">
+                <span className="award-item">
+                  <span className="award-logo if-logo">
+                    <img src="/awards/if-design.svg" alt="iF Design Award" />
+                  </span>
+                  <span className="award-copy"><strong>iF</strong><small>Design Award</small></span>
+                </span>
+                <span className="award-item">
+                  <span className="award-logo red-dot-logo">
+                    <img src="/awards/red-dot.svg" alt="Red Dot Design Award" />
+                  </span>
+                  <span className="award-copy"><strong>Red Dot</strong><small>Design Award</small></span>
+                </span>
+                <span className="award-item">
+                  <span className="award-logo a-design-logo">
+                    <img src="/awards/a-design-award.jpg" alt="Gold A' Design Award" />
+                  </span>
+                  <span className="award-copy"><strong>A&apos; Design</strong><small>Gold Award</small></span>
+                </span>
+              </dd>
             </div>
           </dl>
 
           <div className="contact-row">
-            <a className="primary-button" href="mailto:fangruoyu2023@163.com">
-              发邮件聊聊 <span>↗</span>
-            </a>
+            <button
+              className="primary-button"
+              type="button"
+              onClick={() => copyText("17305691755", "contact")}
+            >
+              <span>{copied === "contact" ? "已复制手机号 / 微信号" : "复制手机号 / 微信号"}</span>
+              <span aria-hidden="true">{copied === "contact" ? "✓" : "＋"}</span>
+            </button>
             <button
               className="secondary-button"
               type="button"
-              onClick={() => navigator.clipboard?.writeText("fangruoyu2023@163.com")}
+              onClick={() => copyText("fangruoyu2023@163.com", "email")}
             >
-              复制邮箱
+              <span>{copied === "email" ? "邮箱已复制" : "复制邮箱"}</span>
+              <span aria-hidden="true">{copied === "email" ? "✓" : "＋"}</span>
             </button>
           </div>
         </section>
@@ -243,61 +387,61 @@ export default function Home() {
           <div className="column-label">
             <span>02</span>
             <h2 id="journey-title">Career journey</h2>
-            <span>点击经历展开</span>
+            <span>2016 — NOW</span>
           </div>
 
-          <div className="journey-intro">
-            <span className="big-number">04+</span>
-            <p>年体验设计实践，从 B 端效率工具到 AI 原生产品。</p>
-          </div>
+          <div className="journey-board" aria-label="2016 年至今的教育与职业时间轴">
+            <div className="year-axis" aria-hidden="true">
+              {journeyYears.map((year, index) => (
+                <div className="year-row" key={year} style={{ top: `${20 + index * 74}px` }}>
+                  <span>{year}</span>
+                  <i />
+                </div>
+              ))}
+            </div>
+            <div className="journey-cards">
+              {journeyEntries.map((entry) => {
+                const content = (
+                  <>
+                  <span className="entry-mark" aria-hidden="true">
+                    <img src={entry.logo} alt="" />
+                  </span>
+                  <span className="entry-copy">
+                    <strong>{entry.organization}</strong>
+                    <span>{entry.role}</span>
+                  </span>
+                  <span className="entry-period">{entry.period}</span>
+                  {entry.kind === "work" && <span className="entry-arrow">↗</span>}
+                  </>
+                );
 
-          <div className="timeline">
-            {jobs.map((job, index) => {
-              const isOpen = activeJob === index;
-              return (
-                <article className={`job ${isOpen ? "is-open" : ""}`} key={job.company}>
+                if (entry.kind === "education") {
+                  return (
+                    <article
+                      className={`journey-entry ${entry.accent} education is-static`}
+                      key={entry.id}
+                      style={{ top: `${entry.top}px`, height: `${entry.height}px` }}
+                      aria-label={`${entry.organization} ${entry.role}`}
+                    >
+                      {content}
+                    </article>
+                  );
+                }
+
+                return (
                   <button
-                    className="job-trigger"
+                    className={`journey-entry ${entry.accent} work`}
+                    key={entry.id}
                     type="button"
-                    aria-expanded={isOpen}
-                    onClick={() => setActiveJob(index)}
+                    style={{ top: `${entry.top}px`, height: `${entry.height}px` }}
+                    onClick={() => setOpenJourney(entry)}
+                    aria-label={`查看 ${entry.organization} ${entry.role} 的详情`}
                   >
-                    <span className="timeline-dot" aria-hidden="true" />
-                    <span className="job-main">
-                      <span className="job-company">{job.company}</span>
-                      <span>{job.role}</span>
-                    </span>
-                    <span className="job-period">{job.period}</span>
-                    <span className="expand-icon">{isOpen ? "−" : "+"}</span>
+                    {content}
                   </button>
-                  {isOpen && (
-                    <div className="job-detail">
-                      <span className="job-team">{job.team}</span>
-                      <p>{job.summary}</p>
-                      <div className="linked-projects">
-                        <span className="linked-label">对应作品</span>
-                        {job.projects.map((projectId) => {
-                          const project = projects.find((item) => item.id === projectId)!;
-                          return (
-                            <button key={project.id} type="button" onClick={() => setOpenProject(project)}>
-                              <span className={`mini-accent ${project.accent}`} />
-                              {project.title}
-                              <span>↗</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </article>
-              );
-            })}
-          </div>
-
-          <div className="career-footer">
-            <span>2021</span>
-            <div />
-            <span>NOW</span>
+                );
+              })}
+            </div>
           </div>
         </section>
 
@@ -310,22 +454,31 @@ export default function Home() {
 
           <div className="work-list">
             {projects.map((project, index) => (
-              <button
-                type="button"
+              <a
                 className="project-card"
                 key={project.id}
-                onClick={() => setOpenProject(project)}
+                href={project.pdf}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={`打开 ${project.title} PDF 案例`}
               >
-                <div className={`project-cover ${project.accent}`}>
+                <div className="project-cover">
+                  <img src={project.cover} alt={`${project.title}案例封面`} />
                   <span className="project-index">0{index + 1}</span>
-                  <span className="project-signal">{project.metric}</span>
-                  <span className="cover-arrow">↗</span>
+                  <span className="cover-arrow">PDF ↗</span>
+                </div>
+                <div className="project-thumbnails" aria-hidden="true">
+                  {project.gallery.map((image, imageIndex) => (
+                    <img src={image} alt="" key={image} className={imageIndex === 0 ? "is-active" : ""} />
+                  ))}
                 </div>
                 <div className="project-meta">
-                  <span>{project.tag}</span>
-                  <h3>{project.title}</h3>
+                  <div className="project-title-block">
+                    <h3>{project.title}</h3>
+                    <span>{project.company} · {project.tag}</span>
+                  </div>
                 </div>
-              </button>
+              </a>
             ))}
           </div>
         </section>
@@ -336,42 +489,63 @@ export default function Home() {
         <span>Designed & vibe coded with intention.</span>
       </footer>
 
-      {openProject && (
-        <div className="modal-backdrop" role="presentation" onMouseDown={() => setOpenProject(null)}>
-          <section
-            className="project-modal"
+      {openJourney && (
+        <div className="drawer-backdrop" role="presentation" onMouseDown={() => setOpenJourney(null)}>
+          <aside
+            className="journey-drawer"
             role="dialog"
             aria-modal="true"
-            aria-labelledby="project-modal-title"
+            aria-labelledby="journey-drawer-title"
             onMouseDown={(event) => event.stopPropagation()}
           >
-            <div className={`modal-banner ${openProject.accent}`}>
-              <span>{openProject.tag}</span>
-              <button type="button" aria-label="关闭项目详情" onClick={() => setOpenProject(null)}>
-                ×
-              </button>
-              <strong>{openProject.metric}</strong>
+            <div className="drawer-handle" aria-hidden="true" />
+            <header className="drawer-header">
+              <div>
+                <span className="eyebrow">
+                  {openJourney.kind === "work" ? "WORK EXPERIENCE" : "EDUCATION"}
+                </span>
+                <h2 id="journey-drawer-title">{openJourney.organization}</h2>
+                <p>{openJourney.role} · {openJourney.period}</p>
+              </div>
+              <button type="button" aria-label="关闭履历详情" onClick={() => setOpenJourney(null)}>×</button>
+            </header>
+
+            <div className="drawer-section">
+              <div className="section-heading"><span>履历概述</span><i /></div>
+              <p className="drawer-summary">{openJourney.summary}</p>
             </div>
-            <div className="modal-content">
-              <span className="eyebrow">SELECTED CASE</span>
-              <h2 id="project-modal-title">{openProject.title}</h2>
-              <p className="modal-summary">{openProject.summary}</p>
-              <div className="modal-info">
-                <div>
-                  <span>我的职责</span>
-                  <p>{openProject.role}</p>
-                </div>
-                <div>
-                  <span>作品状态</span>
-                  <p>案例素材待接入</p>
+
+            {openJourney.bullets.length > 0 && (
+              <div className="drawer-section">
+                <div className="section-heading"><span>主要工作</span><i /></div>
+                <ul className="experience-list">
+                  {openJourney.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}
+                </ul>
+              </div>
+            )}
+
+            {openJourney.projects.length > 0 && (
+              <div className="drawer-section">
+                <div className="section-heading"><span>对应作品</span><i /></div>
+                <div className="drawer-projects">
+                  {openJourney.projects.map((projectId) => {
+                    const project = projects.find((item) => item.id === projectId)!;
+                    return (
+                      <a key={project.id} href={project.pdf} target="_blank" rel="noreferrer">
+                        <div className="drawer-project-cover">
+                          <img src={project.cover} alt={`${project.title}案例封面`} />
+                        </div>
+                        <div>
+                          <strong>{project.title}</strong>
+                          <span>打开 PDF ↗</span>
+                        </div>
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
-              <div className="upload-placeholder">
-                <span>PDF / IMAGE / CASE STUDY</span>
-                <p>你提供作品文件后，这里会替换为完整案例内容。</p>
-              </div>
-            </div>
-          </section>
+            )}
+          </aside>
         </div>
       )}
     </main>
