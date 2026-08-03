@@ -1,0 +1,27 @@
+app/layout.tsx
+  s_bf77b98c8f09f8::t_b52d0bd1eb9f54 18-21,24
+  s_bf77b98c8f09f8::t_bf49a093d4632f 15-17,23,25-32,35-44
+app/page.tsx
+  s_bf77b98c8f09f8::t_6df73277d90fc7 193
+package.json
+  s_bf77b98c8f09f8::t_947ddee5addb50 11-12
+next.config.ts
+  s_bf77b98c8f09f8::t_bf49a093d4632f 4,13
+  s_bf77b98c8f09f8::t_b52d0bd1eb9f54 5-12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.39-trip",
+  "base_commit_sha": "59504da920f61a58141e8e4f0ee9321772558880",
+  "prompts": {},
+  "sessions": {
+    "s_bf77b98c8f09f8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fc13c-40c3-7803-8fae-5951424ba7dd",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Codex <codex@local>"
+    }
+  }
+}
