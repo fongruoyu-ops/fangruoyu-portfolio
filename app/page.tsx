@@ -190,7 +190,7 @@ const tabs = ["About me", "Career journey", "Highlighted work"];
 
 export default function Home() {
   const boardRef = useRef<HTMLDivElement>(null);
-  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const copyTimerRef = useRef<number | null>(null);
   const [activeColumn, setActiveColumn] = useState(0);
   const [openJourney, setOpenJourney] = useState<JourneyEntry | null>(null);
   const [copied, setCopied] = useState<"contact" | "email" | null>(null);

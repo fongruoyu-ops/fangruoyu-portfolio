@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { headers } from "next/headers";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,43 +12,36 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export async function generateMetadata(): Promise<Metadata> {
-  const requestHeaders = await headers();
-  const host =
-    requestHeaders.get("x-forwarded-host") ??
-    requestHeaders.get("host") ??
-    "localhost:3000";
-  const protocol =
-    requestHeaders.get("x-forwarded-proto") ??
-    (host.includes("localhost") ? "http" : "https");
-  const origin = `${protocol}://${host}`;
-  const title = "方若玉 · UX / 交互设计师";
-  const description =
-    "方若玉的个人作品集：AI 产品、复杂业务系统与多终端体验设计。";
+const title = "方若玉 · UX / 交互设计师";
+const description =
+  "方若玉的个人作品集：AI 产品、复杂业务系统与多终端体验设计。";
+const metadataOrigin =
+  process.env.CLOUDBASE_STATIC_EXPORT === "1"
+    ? "https://fangruoyu-ux-d4ggcfuvk2b4a3354-1313385791.tcloudbaseapp.com"
+    : "https://fangruoyu-ux-portfolio.sonderx437.chatgpt.site";
 
-  return {
-    metadataBase: new URL(origin),
+export const metadata: Metadata = {
+  metadataBase: new URL(metadataOrigin),
+  title,
+  description,
+  icons: {
+    icon: [{ url: "/about/ruoyu-avatar.png", type: "image/png" }],
+    shortcut: "/about/ruoyu-avatar.png",
+    apple: "/about/ruoyu-avatar.png",
+  },
+  openGraph: {
     title,
     description,
-    icons: {
-      icon: [{ url: "/about/ruoyu-avatar.png", type: "image/png" }],
-      shortcut: "/about/ruoyu-avatar.png",
-      apple: "/about/ruoyu-avatar.png",
-    },
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      images: [{ url: `${origin}/og.png`, width: 1733, height: 907 }],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [`${origin}/og.png`],
-    },
-  };
-}
+    type: "website",
+    images: [{ url: "/og.png", width: 1733, height: 907 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og.png"],
+  },
+};
 
 export default function RootLayout({
   children,
