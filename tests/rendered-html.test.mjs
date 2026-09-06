@@ -55,6 +55,8 @@ test("ships the portfolio assets and interactions", async () => {
   assert.match(page, /data-column="0"/);
   assert.match(page, /data-column="1"/);
   assert.match(page, /data-column="2"/);
+  assert.match(page, /推动对话从一次性回答升级为基于用户意图的动态任务承接/);
+  assert.match(page, /方案理解—方案比较—资源确认/);
   assert.match(layout, /ruoyu-avatar\.png/);
   assert.match(css, /scroll-snap-type:\s*x mandatory/);
   assert.match(css, /html\[data-theme="dark"\]/);
