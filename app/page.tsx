@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 type Project = {
   id: string;
   title: string;
-  company: "快手" | "美团";
+  company: "携程" | "快手" | "美团";
   companyLogo: string;
   tag: string;
   metric: string;
@@ -34,6 +34,18 @@ type JourneyEntry = {
 
 const projects: Project[] = [
   {
+    id: "ctrip-trip-planner",
+    title: "Trip Planner 对话体验优化",
+    company: "携程",
+    companyLogo: "/logos/ctrip.png",
+    tag: "对话式AI体验",
+    metric: "意图识别 · 动态对话",
+    pdf: "/projects/ctrip-trip-planner.pdf",
+    cover: "/projects/previews/ctrip-trip-planner-01.jpg",
+    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/ctrip-trip-planner-0${page}.jpg`),
+    accent: "lime",
+  },
+  {
     id: "kuaishou-ai",
     title: "AI为中小经营者赋能",
     company: "快手",
@@ -50,7 +62,7 @@ const projects: Project[] = [
     title: "达人分销全链路体验升级",
     company: "快手",
     companyLogo: "/logos/kuaishou.png",
-    tag: "多页面体验优化",
+    tag: "30+页面体验优化 · 设计自驱",
     metric: "33 个页面完成升级",
     pdf: "/projects/kuaishou-3.pdf",
     cover: "/projects/previews/kuaishou-3-01.jpg",
@@ -100,7 +112,7 @@ const journeyEntries: JourneyEntry[] = [
       "覆盖用户需求采集、线路生成、方案展示选择、行程编辑等核心场景，涉及国内、海外、移动端与 PC 端多端需求设计。",
       "沉淀竞品分析、需求分析等 AI Skill，提升需求理解、方案探索及设计研究效率。",
     ],
-    projects: [],
+    projects: ["ctrip-trip-planner"],
     accent: "lime",
     logo: "/logos/ctrip.png",
     top: 70,
@@ -299,7 +311,7 @@ export default function Home() {
 
           <div className="about-visual">
             <img className="about-avatar" src="/about/ruoyu-avatar.png" alt="方若玉卡通头像" />
-            <p className="avatar-intro"><strong>HI,</strong> this is Ruoyu.</p>
+            <p className="avatar-intro"><strong>👋 Hi,</strong> this is Ruoyu.</p>
           </div>
 
           <div className="about-copy">

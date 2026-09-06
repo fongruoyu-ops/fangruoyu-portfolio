@@ -33,6 +33,9 @@ test("server-renders the complete portfolio", async () => {
   assert.match(html, /About me/);
   assert.match(html, /Career journey/);
   assert.match(html, /Highlighted work/);
+  assert.match(html, /Trip Planner 对话体验优化/);
+  assert.match(html, /携程<!-- --> · <!-- -->对话式AI体验/);
+  assert.match(html, /👋 Hi,/);
   assert.match(html, /达人分销全链路体验升级/);
   assert.doesNotMatch(html, /商家服务 \/ 运营工具案例封面|站外推广流量池案例封面/);
   assert.match(html, /17305691755/);
@@ -59,6 +62,7 @@ test("ships the portfolio assets and interactions", async () => {
   await Promise.all([
     access(new URL("../public/about/ruoyu-avatar.png", import.meta.url)),
     access(new URL("../public/projects/kuaishou-ai.pdf", import.meta.url)),
+    access(new URL("../public/projects/ctrip-trip-planner.pdf", import.meta.url)),
     access(new URL("../public/projects/meituan-2.pdf", import.meta.url)),
   ]);
 });
