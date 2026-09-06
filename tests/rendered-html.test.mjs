@@ -56,7 +56,7 @@ test("ships the portfolio assets and interactions", async () => {
 
   await Promise.all([
     access(new URL("../public/about/ruoyu-avatar.png", import.meta.url)),
-    access(new URL("../public/projects/kuaishou-1.pdf", import.meta.url)),
+    access(new URL("../public/projects/kuaishou-ai.pdf", import.meta.url)),
     access(new URL("../public/projects/meituan-2.pdf", import.meta.url)),
   ]);
 });
