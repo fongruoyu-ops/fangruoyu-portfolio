@@ -13,6 +13,7 @@ type Project = {
   cover: string;
   gallery: string[];
   accent: string;
+  featured?: boolean;
 };
 
 type JourneyEntry = {
@@ -46,7 +47,7 @@ const projects: Project[] = [
   },
   {
     id: "kuaishou-3",
-    title: "达人分销体验治理",
+    title: "达人分销全链路体验升级",
     company: "快手",
     companyLogo: "/logos/kuaishou.png",
     tag: "多页面体验优化",
@@ -67,6 +68,7 @@ const projects: Project[] = [
     cover: "/projects/previews/meituan-1-01.jpg",
     gallery: [1, 2, 3, 4].map((page) => `/projects/previews/meituan-1-0${page}.jpg`),
     accent: "yellow",
+    featured: false,
   },
   {
     id: "meituan-2",
@@ -79,8 +81,11 @@ const projects: Project[] = [
     cover: "/projects/previews/meituan-2-01.jpg",
     gallery: [1, 2, 3, 4].map((page) => `/projects/previews/meituan-2-0${page}.jpg`),
     accent: "yellow",
+    featured: false,
   },
 ];
+
+const highlightedProjects = projects.filter((project) => project.featured !== false);
 
 const journeyEntries: JourneyEntry[] = [
   {
@@ -436,11 +441,11 @@ export default function Home() {
           <div className="column-label">
             <span>03</span>
             <h2 id="work-title">Highlighted work</h2>
-            <span>{projects.length} 个项目</span>
+            <span>{highlightedProjects.length} 个项目</span>
           </div>
 
           <div className="work-list">
-            {projects.map((project, index) => (
+            {highlightedProjects.map((project, index) => (
               <a
                 className="project-card"
                 key={project.id}

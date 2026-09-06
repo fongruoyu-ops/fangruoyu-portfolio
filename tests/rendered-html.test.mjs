@@ -33,6 +33,8 @@ test("server-renders the complete portfolio", async () => {
   assert.match(html, /About me/);
   assert.match(html, /Career journey/);
   assert.match(html, /Highlighted work/);
+  assert.match(html, /达人分销全链路体验升级/);
+  assert.doesNotMatch(html, /商家服务 \/ 运营工具案例封面|站外推广流量池案例封面/);
   assert.match(html, /17305691755/);
   assert.match(html, /fangruoyu2023@163\.com/);
   assert.match(html, /about\/ruoyu-avatar\.png/);
