@@ -36,6 +36,8 @@ test("server-renders the complete portfolio", async () => {
   assert.match(html, /Trip Planner 对话体验优化/);
   assert.match(html, /携程<!-- --> · <!-- -->对话式AI体验/);
   assert.match(html, /👋 Hi,/);
+  assert.doesNotMatch(html, /多端设计规范与业务组件/);
+  assert.match(html, /结构化任务流程；对用户行为数据与满意度有较高敏感度/);
   assert.match(html, /达人分销全链路体验升级/);
   assert.doesNotMatch(html, /商家服务 \/ 运营工具案例封面|站外推广流量池案例封面/);
   assert.match(html, /17305691755/);
