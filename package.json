@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext dev",
     "build": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext build",
+    "build:github": "GITHUB_PAGES=1 next build",
     "build:cloudbase": "CLOUDBASE_STATIC_EXPORT=1 next build",
     "deploy:cloudbase": "npm run build:cloudbase && npx --yes --package @cloudbase/cli tcb hosting deploy out -e fangruoyu-ux-d4ggcfuvk2b4a3354 --concurrency 4 --retry-count 3",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",

@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const assetPath = (path: string) =>
+  `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
+
 type Project = {
   id: string;
   title: string;
@@ -37,48 +40,48 @@ const projects: Project[] = [
     id: "ctrip-trip-planner",
     title: "Trip Planner 对话体验优化",
     company: "携程",
-    companyLogo: "/logos/ctrip.png",
+    companyLogo: assetPath("/logos/ctrip.png"),
     tag: "对话式AI体验",
     metric: "意图识别 · 动态对话",
-    pdf: "/projects/ctrip-trip-planner.pdf",
-    cover: "/projects/previews/ctrip-trip-planner-01.jpg",
-    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/ctrip-trip-planner-0${page}.jpg`),
+    pdf: assetPath("/projects/ctrip-trip-planner.pdf"),
+    cover: assetPath("/projects/previews/ctrip-trip-planner-01.jpg"),
+    gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/ctrip-trip-planner-0${page}.jpg`)),
     accent: "lime",
   },
   {
     id: "kuaishou-ai",
     title: "AI为中小经营者赋能",
     company: "快手",
-    companyLogo: "/logos/kuaishou.png",
+    companyLogo: assetPath("/logos/kuaishou.png"),
     tag: "AI赋能 · 0-1体系建设",
     metric: "达人 + 商家双场景",
-    pdf: "/projects/kuaishou-ai.pdf",
-    cover: "/projects/previews/kuaishou-ai-01.jpg",
-    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/kuaishou-ai-0${page}.jpg`),
+    pdf: assetPath("/projects/kuaishou-ai.pdf"),
+    cover: assetPath("/projects/previews/kuaishou-ai-01.jpg"),
+    gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/kuaishou-ai-0${page}.jpg`)),
     accent: "violet",
   },
   {
     id: "kuaishou-3",
     title: "达人分销全链路体验升级",
     company: "快手",
-    companyLogo: "/logos/kuaishou.png",
+    companyLogo: assetPath("/logos/kuaishou.png"),
     tag: "30+页面体验优化 · 设计自驱",
     metric: "33 个页面完成升级",
-    pdf: "/projects/kuaishou-3.pdf",
-    cover: "/projects/previews/kuaishou-3-01.jpg",
-    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/kuaishou-3-0${page}.jpg`),
+    pdf: assetPath("/projects/kuaishou-3.pdf"),
+    cover: assetPath("/projects/previews/kuaishou-3-01.jpg"),
+    gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/kuaishou-3-0${page}.jpg`)),
     accent: "orange",
   },
   {
     id: "meituan-1",
     title: "商家服务 / 运营工具",
     company: "美团",
-    companyLogo: "/logos/meituan.png",
+    companyLogo: assetPath("/logos/meituan.png"),
     tag: "B端效率工具",
     metric: "配置时长 60s → 10s",
-    pdf: "/projects/meituan-1.pdf",
-    cover: "/projects/previews/meituan-1-01.jpg",
-    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/meituan-1-0${page}.jpg`),
+    pdf: assetPath("/projects/meituan-1.pdf"),
+    cover: assetPath("/projects/previews/meituan-1-01.jpg"),
+    gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/meituan-1-0${page}.jpg`)),
     accent: "yellow",
     featured: false,
   },
@@ -86,12 +89,12 @@ const projects: Project[] = [
     id: "meituan-2",
     title: "站外推广流量池",
     company: "美团",
-    companyLogo: "/logos/meituan.png",
+    companyLogo: assetPath("/logos/meituan.png"),
     tag: "增长体验",
     metric: "社群拉新与转化",
-    pdf: "/projects/meituan-2.pdf",
-    cover: "/projects/previews/meituan-2-01.jpg",
-    gallery: [1, 2, 3, 4].map((page) => `/projects/previews/meituan-2-0${page}.jpg`),
+    pdf: assetPath("/projects/meituan-2.pdf"),
+    cover: assetPath("/projects/previews/meituan-2-01.jpg"),
+    gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/meituan-2-0${page}.jpg`)),
     accent: "yellow",
     featured: false,
   },
@@ -115,7 +118,7 @@ const journeyEntries: JourneyEntry[] = [
     ],
     projects: ["ctrip-trip-planner"],
     accent: "lime",
-    logo: "/logos/ctrip.png",
+    logo: assetPath("/logos/ctrip.png"),
     top: 70,
     height: 76,
   },
@@ -134,7 +137,7 @@ const journeyEntries: JourneyEntry[] = [
     ],
     projects: ["kuaishou-ai", "kuaishou-3"],
     accent: "violet",
-    logo: "/logos/kuaishou.png",
+    logo: assetPath("/logos/kuaishou.png"),
     top: 152,
     height: 109,
   },
@@ -153,7 +156,7 @@ const journeyEntries: JourneyEntry[] = [
     ],
     projects: ["meituan-1", "meituan-2"],
     accent: "blue",
-    logo: "/logos/meituan.png",
+    logo: assetPath("/logos/meituan.png"),
     top: 267,
     height: 130,
   },
@@ -168,7 +171,7 @@ const journeyEntries: JourneyEntry[] = [
     bullets: [],
     projects: [],
     accent: "orange",
-    logo: "/logos/gsa.png",
+    logo: assetPath("/logos/gsa.png"),
     top: 403,
     height: 86,
   },
@@ -183,7 +186,7 @@ const journeyEntries: JourneyEntry[] = [
     bullets: [],
     projects: [],
     accent: "yellow",
-    logo: "/logos/anhui-university.png",
+    logo: assetPath("/logos/anhui-university.png"),
     top: 507,
     height: 278,
   },
@@ -311,7 +314,7 @@ export default function Home() {
           </div>
 
           <div className="about-visual">
-            <img className="about-avatar" src="/about/ruoyu-avatar.png" alt="方若玉卡通头像" />
+            <img className="about-avatar" src={assetPath("/about/ruoyu-avatar.png")} alt="方若玉卡通头像" />
             <p className="avatar-intro"><strong>👋 Hi,</strong> this is Ruoyu.</p>
           </div>
 
@@ -344,19 +347,19 @@ export default function Home() {
               <dd className="awards-grid" aria-label="获奖经历">
                 <span className="award-item">
                   <span className="award-logo if-logo">
-                    <img src="/awards/if-design.svg" alt="iF Design Award" />
+                    <img src={assetPath("/awards/if-design.svg")} alt="iF Design Award" />
                   </span>
                   <span className="award-copy"><strong>iF</strong><small>Design Award</small></span>
                 </span>
                 <span className="award-item">
                   <span className="award-logo red-dot-logo">
-                    <img src="/awards/red-dot.svg" alt="Red Dot Design Award" />
+                    <img src={assetPath("/awards/red-dot.svg")} alt="Red Dot Design Award" />
                   </span>
                   <span className="award-copy"><strong>Red Dot</strong><small>Design Award</small></span>
                 </span>
                 <span className="award-item">
                   <span className="award-logo a-design-logo">
-                    <img src="/awards/a-design-award.jpg" alt="Gold A' Design Award" />
+                    <img src={assetPath("/awards/a-design-award.jpg")} alt="Gold A' Design Award" />
                   </span>
                   <span className="award-copy"><strong>A&apos; Design</strong><small>Gold Award</small></span>
                 </span>
