@@ -27,14 +27,8 @@ jobs:
       - name: Configure site path
         shell: bash
         run: |
-          REPO_NAME="${GITHUB_REPOSITORY#*/}"
-          if [[ "$REPO_NAME" == *.github.io ]]; then
-            BASE_PATH=""
-          else
-            BASE_PATH="/$REPO_NAME"
-          fi
-          echo "NEXT_PUBLIC_BASE_PATH=$BASE_PATH" >> "$GITHUB_ENV"
-          echo "NEXT_PUBLIC_SITE_URL=https://${GITHUB_REPOSITORY_OWNER}.github.io${BASE_PATH}" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_BASE_PATH=" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SITE_URL=https://fongruoyu2026.cn" >> "$GITHUB_ENV"
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
