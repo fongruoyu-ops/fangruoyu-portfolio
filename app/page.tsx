@@ -15,6 +15,7 @@ type Project = {
   pdf: string;
   cover: string;
   gallery: string[];
+  pages: string[];
   accent: string;
   featured?: boolean;
 };
@@ -35,6 +36,11 @@ type JourneyEntry = {
   height: number;
 };
 
+const projectPages = (projectId: string, pageCount: number) =>
+  Array.from({ length: pageCount }, (_, index) =>
+    assetPath(`/projects/web/${projectId}/${String(index + 1).padStart(3, "0")}.webp`),
+  );
+
 const projects: Project[] = [
   {
     id: "ctrip-trip-planner",
@@ -46,6 +52,7 @@ const projects: Project[] = [
     pdf: assetPath("/projects/ctrip-trip-planner.pdf"),
     cover: assetPath("/projects/previews/ctrip-trip-planner-01.jpg"),
     gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/ctrip-trip-planner-0${page}.jpg`)),
+    pages: projectPages("ctrip-trip-planner", 38),
     accent: "lime",
   },
   {
@@ -58,6 +65,7 @@ const projects: Project[] = [
     pdf: assetPath("/projects/kuaishou-ai.pdf"),
     cover: assetPath("/projects/previews/kuaishou-ai-01.jpg"),
     gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/kuaishou-ai-0${page}.jpg`)),
+    pages: projectPages("kuaishou-ai", 44),
     accent: "violet",
   },
   {
@@ -70,6 +78,7 @@ const projects: Project[] = [
     pdf: assetPath("/projects/kuaishou-3.pdf"),
     cover: assetPath("/projects/previews/kuaishou-3-01.jpg"),
     gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/kuaishou-3-0${page}.jpg`)),
+    pages: projectPages("kuaishou-3", 23),
     accent: "orange",
   },
   {
@@ -82,6 +91,7 @@ const projects: Project[] = [
     pdf: assetPath("/projects/meituan-1.pdf"),
     cover: assetPath("/projects/previews/meituan-1-01.jpg"),
     gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/meituan-1-0${page}.jpg`)),
+    pages: projectPages("meituan-1", 19),
     accent: "yellow",
     featured: false,
   },
@@ -95,6 +105,7 @@ const projects: Project[] = [
     pdf: assetPath("/projects/meituan-2.pdf"),
     cover: assetPath("/projects/previews/meituan-2-01.jpg"),
     gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/meituan-2-0${page}.jpg`)),
+    pages: projectPages("meituan-2", 14),
     accent: "yellow",
     featured: false,
   },
@@ -198,9 +209,11 @@ const tabs = ["About me", "Career journey", "Highlighted work"];
 
 export default function Home() {
   const boardRef = useRef<HTMLDivElement>(null);
+  const projectViewerRef = useRef<HTMLElement>(null);
   const copyTimerRef = useRef<number | null>(null);
   const [activeColumn, setActiveColumn] = useState(0);
   const [openJourney, setOpenJourney] = useState<JourneyEntry | null>(null);
+  const [openProject, setOpenProject] = useState<Project | null>(null);
   const [copied, setCopied] = useState<"contact" | "email" | null>(null);
   const [theme, setTheme] = useState<"light" | "dark">("dark");
 
@@ -253,14 +266,38 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (!openJourney) return;
+    if (!openJourney && !openProject) return;
     const close = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
-      setOpenJourney(null);
+      if (openProject) setOpenProject(null);
+      else setOpenJourney(null);
     };
     window.addEventListener("keydown", close);
     return () => window.removeEventListener("keydown", close);
-  }, [openJourney]);
+  }, [openJourney, openProject]);
+
+  useEffect(() => {
+    if (!openJourney && !openProject) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [openJourney, openProject]);
+
+  const showProject = (project: Project) => {
+    setOpenJourney(null);
+    setOpenProject(project);
+    window.requestAnimationFrame(() => projectViewerRef.current?.scrollTo({ top: 0 }));
+  };
+
+  const showAdjacentProject = (direction: -1 | 1) => {
+    if (!openProject) return;
+    const currentIndex = projects.findIndex((project) => project.id === openProject.id);
+    const nextIndex = Math.max(0, Math.min(projects.length - 1, currentIndex + direction));
+    setOpenProject(projects[nextIndex]);
+    window.requestAnimationFrame(() => projectViewerRef.current?.scrollTo({ top: 0, behavior: "smooth" }));
+  };
 
   useEffect(() => {
     return () => {
@@ -458,31 +495,46 @@ export default function Home() {
 
           <div className="work-list">
             {highlightedProjects.map((project, index) => (
-              <a
+              <article
                 className="project-card"
                 key={project.id}
-                href={project.pdf}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`打开 ${project.title} PDF 案例`}
               >
-                <div className="project-cover">
-                  <img src={project.cover} alt={`${project.title}案例封面`} />
-                  <span className="project-index">0{index + 1}</span>
-                  <span className="cover-arrow">PDF ↗</span>
-                </div>
-                <div className="project-thumbnails" aria-hidden="true">
-                  {project.gallery.map((image, imageIndex) => (
-                    <img src={image} alt="" key={image} className={imageIndex === 0 ? "is-active" : ""} />
-                  ))}
-                </div>
-                <div className="project-meta">
-                  <div className="project-title-block">
-                    <h3>{project.title}</h3>
-                    <span>{project.company} · {project.tag}</span>
+                <button
+                  className="project-card-trigger"
+                  type="button"
+                  onClick={() => showProject(project)}
+                  aria-label={`站内查看 ${project.title} 案例`}
+                >
+                  <div className="project-cover">
+                    <img
+                      src={project.cover}
+                      alt={`${project.title}案例封面`}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                    <span className="project-index">0{index + 1}</span>
+                    <span className="cover-arrow">查看 ↗</span>
                   </div>
-                </div>
-              </a>
+                  <div className="project-thumbnails" aria-hidden="true">
+                    {project.gallery.map((image, imageIndex) => (
+                      <img
+                        src={image}
+                        alt=""
+                        key={image}
+                        className={imageIndex === 0 ? "is-active" : ""}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ))}
+                  </div>
+                  <div className="project-meta">
+                    <div className="project-title-block">
+                      <h3>{project.title}</h3>
+                      <span>{project.company} · {project.tag}</span>
+                    </div>
+                  </div>
+                </button>
+              </article>
             ))}
           </div>
         </section>
@@ -535,15 +587,15 @@ export default function Home() {
                   {openJourney.projects.map((projectId) => {
                     const project = projects.find((item) => item.id === projectId)!;
                     return (
-                      <a key={project.id} href={project.pdf} target="_blank" rel="noreferrer">
+                      <button key={project.id} type="button" onClick={() => showProject(project)}>
                         <div className="drawer-project-cover">
-                          <img src={project.cover} alt={`${project.title}案例封面`} />
+                          <img src={project.cover} alt={`${project.title}案例封面`} loading="lazy" decoding="async" />
                         </div>
                         <div>
                           <strong>{project.title}</strong>
-                          <span>打开 PDF ↗</span>
+                          <span>查看作品 ↗</span>
                         </div>
-                      </a>
+                      </button>
                     );
                   })}
                 </div>
@@ -552,6 +604,67 @@ export default function Home() {
           </aside>
         </div>
       )}
+
+      {openProject && (() => {
+        const projectIndex = projects.findIndex((project) => project.id === openProject.id);
+        return (
+          <div className="project-viewer-backdrop" role="presentation" onMouseDown={() => setOpenProject(null)}>
+            <section
+              className="project-viewer"
+              ref={projectViewerRef}
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="project-viewer-title"
+              onMouseDown={(event) => event.stopPropagation()}
+            >
+              <header className="project-viewer-header">
+                <div className="project-viewer-title">
+                  <span>SELECTED WORK · {String(projectIndex + 1).padStart(2, "0")}</span>
+                  <h2 id="project-viewer-title">{openProject.title}</h2>
+                  <p>{openProject.company} · {openProject.tag}</p>
+                </div>
+                <div className="project-viewer-actions">
+                  <div className="project-switcher" aria-label="切换项目">
+                    <button
+                      type="button"
+                      onClick={() => showAdjacentProject(-1)}
+                      disabled={projectIndex === 0}
+                      aria-label="上一个项目"
+                    >
+                      ←
+                    </button>
+                    <span aria-live="polite">{projectIndex + 1} / {projects.length}</span>
+                    <button
+                      type="button"
+                      onClick={() => showAdjacentProject(1)}
+                      disabled={projectIndex === projects.length - 1}
+                      aria-label="下一个项目"
+                    >
+                      →
+                    </button>
+                  </div>
+                  <button className="project-viewer-close" type="button" onClick={() => setOpenProject(null)} aria-label="关闭作品详情">×</button>
+                </div>
+              </header>
+
+              <div className="project-pages">
+                {openProject.pages.map((page, pageIndex) => (
+                  <figure className="project-page" key={page}>
+                    <img
+                      src={page}
+                      alt={`${openProject.title} 第 ${pageIndex + 1} 页`}
+                      loading={pageIndex < 2 ? "eager" : "lazy"}
+                      decoding="async"
+                    />
+                    <figcaption>{String(pageIndex + 1).padStart(2, "0")} / {String(openProject.pages.length).padStart(2, "0")}</figcaption>
+                  </figure>
+                ))}
+                <p className="project-end">— 案例结束 · END OF CASE STUDY —</p>
+              </div>
+            </section>
+          </div>
+        );
+      })()}
     </main>
   );
 }
