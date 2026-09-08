@@ -43,6 +43,7 @@ test("server-renders the complete portfolio", async () => {
   assert.match(html, /17305691755/);
   assert.match(html, /fangruoyu2023@163\.com/);
   assert.match(html, /about\/ruoyu-avatar\.png/);
+  assert.match(html, /hm\.baidu\.com\/hm\.js\?676b67cd73bf4c25a6bb1626f530a729/);
   assert.doesNotMatch(html, /codex-preview|Building your site|react-loading-skeleton/i);
 });
 
@@ -60,6 +61,8 @@ test("ships the portfolio assets and interactions", async () => {
   assert.match(page, /推动对话从一次性回答升级为基于用户意图的动态任务承接/);
   assert.match(page, /方案理解—方案比较—资源确认/);
   assert.match(layout, /ruoyu-avatar\.png/);
+  assert.match(layout, /window\._hmt = window\._hmt \|\| \[\]/);
+  assert.match(layout, /676b67cd73bf4c25a6bb1626f530a729/);
   assert.match(css, /scroll-snap-type:\s*x mandatory/);
   assert.match(css, /html\[data-theme="dark"\]/);
 
