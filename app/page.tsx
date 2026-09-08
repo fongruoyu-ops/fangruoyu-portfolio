@@ -16,6 +16,7 @@ type Project = {
   cover: string;
   gallery: string[];
   pages: string[];
+  pagesHd: string[];
   accent: string;
   featured?: boolean;
 };
@@ -36,9 +37,9 @@ type JourneyEntry = {
   height: number;
 };
 
-const projectPages = (projectId: string, pageCount: number) =>
+const projectPages = (projectId: string, pageCount: number, directory = "web") =>
   Array.from({ length: pageCount }, (_, index) =>
-    assetPath(`/projects/web/${projectId}/${String(index + 1).padStart(3, "0")}.webp`),
+    assetPath(`/projects/${directory}/${projectId}/${String(index + 1).padStart(3, "0")}.webp`),
   );
 
 const projects: Project[] = [
@@ -53,6 +54,7 @@ const projects: Project[] = [
     cover: assetPath("/projects/previews/ctrip-trip-planner-01.jpg"),
     gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/ctrip-trip-planner-0${page}.jpg`)),
     pages: projectPages("ctrip-trip-planner", 38),
+    pagesHd: projectPages("ctrip-trip-planner", 38, "web-hd"),
     accent: "lime",
   },
   {
@@ -66,6 +68,7 @@ const projects: Project[] = [
     cover: assetPath("/projects/previews/kuaishou-ai-01.jpg"),
     gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/kuaishou-ai-0${page}.jpg`)),
     pages: projectPages("kuaishou-ai", 44),
+    pagesHd: projectPages("kuaishou-ai", 44, "web-hd"),
     accent: "violet",
   },
   {
@@ -79,6 +82,7 @@ const projects: Project[] = [
     cover: assetPath("/projects/previews/kuaishou-3-01.jpg"),
     gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/kuaishou-3-0${page}.jpg`)),
     pages: projectPages("kuaishou-3", 23),
+    pagesHd: projectPages("kuaishou-3", 23, "web-hd"),
     accent: "orange",
   },
   {
@@ -92,6 +96,7 @@ const projects: Project[] = [
     cover: assetPath("/projects/previews/meituan-1-01.jpg"),
     gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/meituan-1-0${page}.jpg`)),
     pages: projectPages("meituan-1", 19),
+    pagesHd: projectPages("meituan-1", 19, "web-hd"),
     accent: "yellow",
     featured: false,
   },
@@ -106,6 +111,7 @@ const projects: Project[] = [
     cover: assetPath("/projects/previews/meituan-2-01.jpg"),
     gallery: [1, 2, 3, 4].map((page) => assetPath(`/projects/previews/meituan-2-0${page}.jpg`)),
     pages: projectPages("meituan-2", 14),
+    pagesHd: projectPages("meituan-2", 14, "web-hd"),
     accent: "yellow",
     featured: false,
   },
@@ -652,6 +658,8 @@ export default function Home() {
                   <figure className="project-page" key={page}>
                     <img
                       src={page}
+                      srcSet={`${page} 1600w, ${openProject.pagesHd[pageIndex]} 2880w`}
+                      sizes="(max-width: 720px) 100vw, (min-width: 1648px) 1600px, calc(100vw - 48px)"
                       alt={`${openProject.title} 第 ${pageIndex + 1} 页`}
                       loading={pageIndex < 2 ? "eager" : "lazy"}
                       decoding="async"

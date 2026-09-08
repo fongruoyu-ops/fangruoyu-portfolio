@@ -12,6 +12,7 @@ from pypdf import PdfReader
 ROOT = Path(__file__).resolve().parents[1]
 PROJECTS_DIR = ROOT / "public" / "projects"
 OUTPUT_DIR = PROJECTS_DIR / "web"
+HD_OUTPUT_DIR = PROJECTS_DIR / "web-hd"
 PROJECT_IDS = (
     "ctrip-trip-planner",
     "kuaishou-ai",
@@ -19,18 +20,22 @@ PROJECT_IDS = (
     "meituan-1",
     "meituan-2",
 )
-TARGET_WIDTH = 1600
-WEBP_QUALITY = 82
+STANDARD_WIDTH = 1600
+STANDARD_QUALITY = 82
+HD_WIDTH = 2880
+HD_QUALITY = 92
 
 
 def render_project(project_id: str) -> None:
     source = PROJECTS_DIR / f"{project_id}.pdf"
     destination = OUTPUT_DIR / project_id
+    hd_destination = HD_OUTPUT_DIR / project_id
     page_count = len(PdfReader(source).pages)
 
-    destination.mkdir(parents=True, exist_ok=True)
-    for stale_page in destination.glob("*.webp"):
-        stale_page.unlink()
+    for output_directory in (destination, hd_destination):
+        output_directory.mkdir(parents=True, exist_ok=True)
+        for stale_page in output_directory.glob("*.webp"):
+            stale_page.unlink()
 
     with tempfile.TemporaryDirectory(prefix=f"{project_id}-") as temporary_directory:
         temporary = Path(temporary_directory)
@@ -45,7 +50,7 @@ def render_project(project_id: str) -> None:
                     str(page_number),
                     "-singlefile",
                     "-scale-to-x",
-                    str(TARGET_WIDTH),
+                    str(HD_WIDTH),
                     "-scale-to-y",
                     "-1",
                     "-png",
@@ -57,10 +62,23 @@ def render_project(project_id: str) -> None:
             )
 
             with Image.open(prefix.with_suffix(".png")) as image:
-                image.convert("RGB").save(
+                hd_image = image.convert("RGB")
+                standard_height = round(hd_image.height * STANDARD_WIDTH / hd_image.width)
+                standard_image = hd_image.resize(
+                    (STANDARD_WIDTH, standard_height),
+                    Image.Resampling.LANCZOS,
+                )
+
+                standard_image.save(
                     destination / f"{page_number:03d}.webp",
                     "WEBP",
-                    quality=WEBP_QUALITY,
+                    quality=STANDARD_QUALITY,
+                    method=6,
+                )
+                hd_image.save(
+                    hd_destination / f"{page_number:03d}.webp",
+                    "WEBP",
+                    quality=HD_QUALITY,
                     method=6,
                 )
 
